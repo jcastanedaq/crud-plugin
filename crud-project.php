@@ -30,7 +30,7 @@ global $wpdb;
 define( 'CP_REALPATH_BASENAME_PLUGIN', dirname( plugin_basename( __FILE__ ) ) . '/' );
 define( 'CP_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CP_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
-define( 'CP_TABLE', "{$wpdb->prefix}beziercode_data" );
+define( 'CP_TABLE', "{$wpdb->prefix}crud_data" );
 
 /**
  * Código que se ejecuta en la activación del plugin

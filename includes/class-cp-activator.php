@@ -31,7 +31,19 @@ class CP_Activator {
 	 */
 	public static function activate() {
         
-        
+		global $wpdb;
+		
+		$sql = "CREATE TABLE IF NOT EXISTS ".CP_TABLE."(
+			id int(11) NOT NULL AUTO_INCREMENT,
+			nombre varchar(50) NOT NULL,
+			data longtext NOT NULL,
+			PRIMARY KEY (id)
+		);";
+
+		var_dump($sql);
+
+		$wpdb->query($sql);
+
         
 	}
 
