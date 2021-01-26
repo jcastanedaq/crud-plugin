@@ -20,4 +20,8 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
  * del plugin
  */
 
+global $wpdb;
 
+$sql = "DROP TABLE IF EXISTS {$wpdb->prefix}crud_data";
+
+$wpdb->query($sql);

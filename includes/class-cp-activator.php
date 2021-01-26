@@ -23,7 +23,7 @@ class CP_Activator {
 	/**
 	 * Método estático que se ejecuta al activar el plugin
 	 *
-	 * Creación de la tabla {$wpdb->prefix}beziercode_data
+	 * Creación de la tabla {$wpdb->prefix}crud_data
      * para guardar toda la información necesaria
 	 *
 	 * @since 1.0.0
@@ -39,8 +39,6 @@ class CP_Activator {
 			data longtext NOT NULL,
 			PRIMARY KEY (id)
 		);";
-
-		var_dump($sql);
 
 		$wpdb->query($sql);
 
