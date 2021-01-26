@@ -31,7 +31,7 @@ class CP_i18n {
     public function load_plugin_textdomain() {
         
         load_plugin_textdomain(
-            'beziercode-textdomain',
+            'jcastaneda-textdomain',
             false,
             CP_PLUGIN_DIR_PATH . 'languages'
         );

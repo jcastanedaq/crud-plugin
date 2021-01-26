@@ -37,7 +37,7 @@ abstract class CP_Metabox {
     
         add_meta_box(
             'bc_id_metabox',
-            __('Título', 'beziercode-textdomain'),
+            __('Título', 'jcastaneda-textdomain'),
             [self::class, 'html'],
             $post_types,
             'normal',
