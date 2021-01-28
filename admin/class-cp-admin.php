@@ -179,7 +179,12 @@ class CP_Admin {
 
     public function controlador_display_menu() {
 
-        require_once CP_PLUGIN_DIR_PATH . 'admin/partials/cp-admin-display.php';
+        if($_GET['page'] == 'cp_data' && $_GET['accion'] == 'edit' && isset($_GET['id'])){
+            require_once CP_PLUGIN_DIR_PATH . 'admin/partials/cp-admin-display-edit.php';
+        }else{
+            require_once CP_PLUGIN_DIR_PATH . 'admin/partials/cp-admin-display.php';
+        }
+
     }
     
 }
