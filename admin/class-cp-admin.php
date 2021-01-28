@@ -41,6 +41,15 @@ class CP_Admin {
 	 * @var      string    $version  La versión actual del plugin
 	 */
     private $version;
+
+    /**
+	 * Versión actual del plugin
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      object    $version  La versión actual del plugin
+	 */
+    private $build_menupage;
     
     /**
      * @param string $plugin_name nombre o identificador único de éste plugin.
@@ -50,7 +59,7 @@ class CP_Admin {
         
         $this->plugin_name = $plugin_name;
         $this->version = $version;     
-        
+        $this->build_menupage = new CP_Build_Menupage();
     }
     
     /**
@@ -59,7 +68,7 @@ class CP_Admin {
 	 * @since    1.0.0
      * @access   public
 	 */
-    public function enqueue_styles() {
+    public function enqueue_styles($hook) {
         
         /**
          * Una instancia de esta clase debe pasar a la función run()
@@ -70,6 +79,17 @@ class CP_Admin {
          * entre los ganchos definidos y las funciones definidas en este
          * clase.
 		 */
+
+         /*
+        * cp-wordpress.css
+        * Archivo de hoja de estilos principales de la administracion
+        */
+
+        wp_enqueue_style( 'cp_wordpress_css', CP_PLUGIN_DIR_URL . 'admin/css/cp-wordpress.css', array(), $this->version, 'all' );
+
+        if($hook != 'toplevel_page_cp_data'){
+            return;
+        }
 
         /*
         * Framework materialize css
@@ -102,7 +122,7 @@ class CP_Admin {
 	 * @since    1.0.0
      * @access   public
 	 */
-    public function enqueue_scripts() {
+    public function enqueue_scripts($hook) {
         
         /**
          * Una instancia de esta clase debe pasar a la función run()
@@ -120,17 +140,46 @@ class CP_Admin {
         * Material Icons Google
         */
 
-        wp_enqueue_script( 'cp_materialize_admin_js', CP_PLUGIN_DIR_URL . 'helpers/materialize/js/materialize.min.js', array(), $this->version, true );
+        if($hook != 'toplevel_page_cp_data'){
+            return;
+        }
+
+        wp_enqueue_script( 'cp_materialize_admin_js', CP_PLUGIN_DIR_URL . 'helpers/materialize/js/materialize.min.js', ['jquery'], $this->version, true );
 
         /*
         * Sweet alert
         * http://t4t5.github.io/sweetalert
         */
 
-        wp_enqueue_script( 'cp_sweetalert_js', CP_PLUGIN_DIR_URL . 'helpers/sweetalert-master/dist/sweetalert.min.js', array(), $this->version, true );
+        wp_enqueue_script( 'cp_sweetalert_js', CP_PLUGIN_DIR_URL . 'helpers/sweetalert-master/dist/sweetalert.min.js', ['jquery'], $this->version, true );
 
         wp_enqueue_script( $this->plugin_name, CP_PLUGIN_DIR_URL . 'admin/js/cp-admin.js', ['jquery'], $this->version, true );
         
+    }
+    /**
+	 * Registra la clase para crear el menu
+	 *
+	 * @since    1.0.0
+     * @access   public
+	 */
+    public function add_menu(){
+
+        $this->build_menupage->add_menu_page(
+            __('Crud Project', 'jcastaneda-textdomain'),
+            __('Crud Project', 'jcastaneda-textdomain'),
+            'manage_options',
+            'cp_data',
+            [$this, 'controlador_display_menu'],
+            'dashicons-plugin',
+            22
+        );
+
+        $this->build_menupage->run();
+    }
+
+    public function controlador_display_menu() {
+
+        require_once CP_PLUGIN_DIR_PATH . 'admin/partials/cp-admin-display.php';
     }
     
 }

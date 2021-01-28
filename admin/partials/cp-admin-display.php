@@ -11,6 +11,6 @@
   * @package Beziercode_blank
   * @subpackage Beziercode_blank/admin/parcials
   */
+/* Este archivo debe consistir principalmente en HTML con un poco de PHP. */
 
-  /* Este archivo debe consistir principalmente en HTML con un poco de PHP. */
-
+echo "Todo correcto";

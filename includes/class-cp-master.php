@@ -107,7 +107,13 @@ class CP_Master {
 		 */
         require_once CP_PLUGIN_DIR_PATH . 'includes/class-cp-i18n.php';        
         
-        /**
+		/**
+		 * La clase responsable de contruir el menu del
+         * área de administración
+		 */
+		require_once CP_PLUGIN_DIR_PATH . 'includes/class-cp-build-menupage.php';
+		
+		/**
 		 * La clase responsable de definir todas las acciones en el
          * área de administración
 		 */
@@ -163,7 +169,9 @@ class CP_Master {
     private function definir_admin_hooks() {
         
         $this->cargador->add_action( 'admin_enqueue_scripts', $this->cp_admin, 'enqueue_styles' );
-        $this->cargador->add_action( 'admin_enqueue_scripts', $this->cp_admin, 'enqueue_scripts' );
+		$this->cargador->add_action( 'admin_enqueue_scripts', $this->cp_admin, 'enqueue_scripts' );
+		
+		$this->cargador->add_action( 'admin_menu', $this->cp_admin, 'add_menu');
     }
     
     /**
