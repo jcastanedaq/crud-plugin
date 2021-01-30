@@ -50,6 +50,8 @@ class CP_Admin {
 	 * @var      object    $version  La versión actual del plugin
 	 */
     private $build_menupage;
+
+    private $db;
     
     /**
      * @param string $plugin_name nombre o identificador único de éste plugin.
@@ -60,6 +62,10 @@ class CP_Admin {
         $this->plugin_name = $plugin_name;
         $this->version = $version;     
         $this->build_menupage = new CP_Build_Menupage();
+
+        global $wpdb;
+        $this->db = $wpdb;
+
     }
     
     /**
@@ -154,6 +160,14 @@ class CP_Admin {
         wp_enqueue_script( 'cp_sweetalert_js', CP_PLUGIN_DIR_URL . 'helpers/sweetalert-master/dist/sweetalert.min.js', ['jquery'], $this->version, true );
 
         wp_enqueue_script( $this->plugin_name, CP_PLUGIN_DIR_URL . 'admin/js/cp-admin.js', ['jquery'], $this->version, true );
+
+        wp_localize_script(
+            $this->plugin_name,
+            'cpdata',
+            [
+                'url' => admin_url('admin-ajax.php'),
+                'seguridad' => wp_create_nonce('cpdata_seg')
+            ]);
         
     }
     /**
@@ -179,12 +193,48 @@ class CP_Admin {
 
     public function controlador_display_menu() {
 
-        if($_GET['page'] == 'cp_data' && $_GET['accion'] == 'edit' && isset($_GET['id'])){
+        if($_GET['page'] == 'cp_data' && $_GET['action'] == 'edit' && isset($_GET['id'])){
             require_once CP_PLUGIN_DIR_PATH . 'admin/partials/cp-admin-display-edit.php';
         }else{
             require_once CP_PLUGIN_DIR_PATH . 'admin/partials/cp-admin-display.php';
         }
 
+    }
+
+    public function ajax_crud_table(){
+
+        check_ajax_referer('cpdata_seg', 'nonce');
+
+        if(current_user_can('manage_options')){
+
+            extract( $_POST, EXTR_OVERWRITE);
+
+            if($tipo == 'add'){
+
+                $columns = [
+                    'nombre' => $nombre,
+                    'data' => '',
+    
+                ];
+    
+    
+                $result = $this->db->insert(CP_TABLE, $columns);
+    
+                $json = json_encode([
+                    'result' => $result,
+                    'nombre' => $nombre,
+                    'insert_id' => $this->db->insert_id
+                ]);
+
+            }
+
+            
+
+            echo $json;
+            wp_die();
+
+
+        }
     }
     
 }

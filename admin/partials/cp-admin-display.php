@@ -14,25 +14,67 @@
 /* Este archivo debe consistir principalmente en HTML con un poco de PHP. */
 
 ?>
-
 <div id="add_cp_table" class="modal">
     <div class="modal-content">
-      <form>
+        <div class="precargador">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue">
+                    <div class="circle-clipper left">
+                    <div class="circle"></div>
+                    </div><div class="gap-patch">
+                    <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-red">
+                    <div class="circle-clipper left">
+                    <div class="circle"></div>
+                    </div><div class="gap-patch">
+                    <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-yellow">
+                    <div class="circle-clipper left">
+                    <div class="circle"></div>
+                    </div><div class="gap-patch">
+                    <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-green">
+                    <div class="circle-clipper left">
+                    <div class="circle"></div>
+                    </div><div class="gap-patch">
+                    <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form>
         <div class="row">
             <div class="input-field col s6">
-                <input id="nombre" type="text" class="validate">
-                <label for="nombre">Nombre de la tabla</label>
+                <input id="nombre_tabla" type="text" class="validate">
+                <label for="nombre_tabla">Nombre de la tabla</label>
             </div>
             
         </div>
         <div class="row">
         <div class="input-field col s6">
-                <button id="crear-table" class="btn waves-effect waves-light" type="button" name="accion"> Crear <i class="material-icons right">add</i></button>
+                <button id="crear-tabla" class="btn waves-effect waves-light" type="button" name="accion"> Crear <i class="material-icons right">add</i></button>
             </div>
         </div>
-      </form>
+        </form>
     </div>
-  </div>
+</div>
 
 <div class="had-container">
     <!-- titulo de la pagina -->

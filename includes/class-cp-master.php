@@ -172,6 +172,8 @@ class CP_Master {
 		$this->cargador->add_action( 'admin_enqueue_scripts', $this->cp_admin, 'enqueue_scripts' );
 		
 		$this->cargador->add_action( 'admin_menu', $this->cp_admin, 'add_menu');
+
+		$this->cargador->add_action( 'wp_ajax_cp_crud_table', $this->cp_admin, 'ajax_crud_table');
     }
     
     /**
