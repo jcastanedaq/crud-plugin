@@ -169,7 +169,7 @@ class CP_Admin {
                 'seguridad' => wp_create_nonce('cpdata_seg')
             ]);
         
-    }
+        }
     /**
 	 * Registra la clase para crear el menu
 	 *
