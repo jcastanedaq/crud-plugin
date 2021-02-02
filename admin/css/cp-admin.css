@@ -37,6 +37,22 @@ input.clase_campo {
 	display: none;
 }
 
+.marcoimg{
+	width: 80px;
+	height: 80px;
+	overflow: hidden;
+	border-radius: 50%;
+	position: relative;
+}
+
+.marcoimg img{
+	width: 90px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
 
 
 

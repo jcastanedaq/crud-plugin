@@ -1,0 +1,21 @@
+{
+    "tabla":{
+        "nombre": "test"
+    },
+    "items": [
+        {
+            "id": 1,
+            "nombres": "jorge",
+            "apellidos": "castaneda",
+            "email": "jorge@jcastaneda.com",
+            "media": "url"
+        },
+        {
+            "id": 1,
+            "nombres": "jorge",
+            "apellidos": "castaneda",
+            "email": "jorge@jcastaneda.com",
+            "media": "url"
+        }
+    ]
+}

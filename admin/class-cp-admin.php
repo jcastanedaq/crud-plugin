@@ -52,6 +52,8 @@ class CP_Admin {
     private $build_menupage;
 
     private $db;
+
+    private $crud_json;
     
     /**
      * @param string $plugin_name nombre o identificador único de éste plugin.
@@ -66,6 +68,8 @@ class CP_Admin {
         global $wpdb;
         $this->db = $wpdb;
 
+        $this->crud_json = new CP_CRUD_JSON;
+
     }
     
     /**
@@ -75,6 +79,8 @@ class CP_Admin {
      * @access   public
 	 */
     public function enqueue_styles($hook) {
+
+        wp_enqueue_media();
         
         /**
          * Una instancia de esta clase debe pasar a la función run()
@@ -225,6 +231,60 @@ class CP_Admin {
                     'nombre' => $nombre,
                     'insert_id' => $this->db->insert_id
                 ]);
+
+            }
+
+            
+
+            echo $json;
+            wp_die();
+
+
+        }
+    }
+
+    public function ajax_crud_json(){
+
+        check_ajax_referer('cpdata_seg', 'nonce');
+
+        if(current_user_can('manage_options')){
+
+            extract( $_POST, EXTR_OVERWRITE);
+
+            $sql = $this->db->prepare('SELECT data FROM ' . CP_TABLE . ' WHERE id = %d', $idtable);
+            $resultado = $this->db->get_var($sql);
+
+            if($tipo == 'add'){
+
+                $data = $this->crud_json->add_item($resultado, $nombres, $apellidos, $email, $media);
+
+                $columns = [
+                    "data" => json_encode($data)
+                ];
+
+                $where = [
+                    "id" => $idtable
+                ];
+
+                $format = [
+                    "%s"
+                ];
+
+                $where_format = [
+                    "%d"
+                ];
+
+                $result_update = $this->db->update(CP_TABLE, $columns, $where, $format, $where_format);
+                $items = $data['items'];
+                $last_item = end($items);
+                $insert_id = $last_item['id'];
+                $json = json_encode([
+                    'result' =>$result_update,
+                    'json' => $data,
+                    'insert_id' => $insert_id
+                ]);
+
+                
 
             }
 

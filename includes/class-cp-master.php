@@ -117,13 +117,21 @@ class CP_Master {
 		 * La clase responsable de definir todas las acciones en el
          * área de administración
 		 */
-        require_once CP_PLUGIN_DIR_PATH . 'admin/class-cp-admin.php';
+		require_once CP_PLUGIN_DIR_PATH . 'admin/class-cp-admin.php';
+		
+		/**
+		 * La clase responsable de definir todas las acciones en el
+         * área de administración
+		 */
+        require_once CP_PLUGIN_DIR_PATH . 'includes/class-cp-crud-json.php';
         
         /**
 		 * La clase responsable de definir todas las acciones en el
          * área del lado del cliente/público
 		 */
-        require_once CP_PLUGIN_DIR_PATH . 'public/class-cp-public.php';        
+		require_once CP_PLUGIN_DIR_PATH . 'public/class-cp-public.php';
+		
+		
         
     }
     
@@ -174,6 +182,7 @@ class CP_Master {
 		$this->cargador->add_action( 'admin_menu', $this->cp_admin, 'add_menu');
 
 		$this->cargador->add_action( 'wp_ajax_cp_crud_table', $this->cp_admin, 'ajax_crud_table');
+		$this->cargador->add_action( 'wp_ajax_cp_crud_json', $this->cp_admin, 'ajax_crud_json');
     }
     
     /**

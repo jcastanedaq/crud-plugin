@@ -13,6 +13,9 @@
   */
 /* Este archivo debe consistir principalmente en HTML con un poco de PHP. */
 
+$sql = "SELECT id, nombre FROM ". CP_TABLE;
+$result = $this->db->get_results($sql);
+
 ?>
 <div id="add_cp_table" class="modal">
     <div class="modal-content">
@@ -104,20 +107,29 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Mi primera tabla</td>
-            <td>[cpdatos id="3"]</td>
-            <td>
-                <span class="btn btn-floating waves-effect waves-light">    
-                    <i class="tiny material-icons">mode_edit</i>
-                </span>
-            </td>
-            <td>
-                <span class="btn btn-floating waves-effect waves-light red darken-1">
-                    <i class="tiny material-icons">close</i>
-                </span>
-            </td>
-          </tr>
+            <?php
+                foreach($result as $k => $v){
+                    $id = $v->id;
+                    $nombre = $v->nombre;
+
+                    echo "
+                    <tr data-table='$id'>
+                    <td>$nombre</td>
+                    <td>[cpdatos id='$id']</td>
+                    <td>
+                        <span data-cp-id-edit='$id' class='btn btn-floating waves-effect waves-light'>    
+                            <i class='tiny material-icons'>mode_edit</i>
+                        </span>
+                    </td>
+                    <td>
+                        <span data-cp-id-remove='$id' class='btn btn-floating waves-effect waves-light red darken-1'>
+                            <i class='tiny material-icons'>close</i>
+                        </span>
+                    </td>
+                  </tr>";
+                }
+            ?>
+          
         </tbody>
       </table>
     </div>
