@@ -195,7 +195,8 @@ class CP_Master {
     private function definir_public_hooks() {
         
         $this->cargador->add_action( 'wp_enqueue_scripts', $this->cp_public, 'enqueue_styles' );
-        $this->cargador->add_action( 'wp_enqueue_scripts', $this->cp_public, 'enqueue_scripts' );
+		$this->cargador->add_action( 'wp_enqueue_scripts', $this->cp_public, 'enqueue_scripts' );
+		$this->cargador->add_shortcode( 'cpdatos', $this->cp_public, 'cpdatos_shortcode_id' );
                 
     }
     

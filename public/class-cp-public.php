@@ -41,6 +41,8 @@ class CP_Public {
 	 * @var      string    $version  La versión actual del plugin
 	 */
     private $version;
+
+    private $db;
     
     /**
      * @param string $plugin_name nombre o identificador único de éste plugin.
@@ -49,7 +51,10 @@ class CP_Public {
     public function __construct( $plugin_name, $version ) {
         
         $this->plugin_name  = $plugin_name;
-        $this->version      = $version;     
+        $this->version      = $version;
+
+        global $wpdb;
+        $this->db = $wpdb;
         
     }
     
@@ -70,7 +75,7 @@ class CP_Public {
          * entre los ganchos definidos y las funciones definidas en este
          * clase.
 		 */
-		wp_enqueue_style( $this->plugin_name, CP_PLUGIN_DIR_URL . 'public/css/bc-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, CP_PLUGIN_DIR_URL . 'public/css/cp-public.css', array(), $this->version, 'all' );
         
     }
     
@@ -93,6 +98,70 @@ class CP_Public {
 		 */
         wp_enqueue_script( $this->plugin_name, CP_PLUGIN_DIR_URL . 'public/js/bc-admin.js', array( 'jquery' ), $this->version, true );
         
+    }
+
+    public function cpdatos_shortcode_id($atts, $content = ''){
+
+        $args = shortcode_atts([
+            'id' => ''
+        ], $atts);
+
+        extract($args, EXTR_OVERWRITE);
+
+        if( $id != ''){
+            $sql = $this->db->prepare("SELECT nombre, data FROM ".CP_TABLE." WHERE id = %d", $id);
+            $result = $this->db->get_results($sql);
+
+            if($result[0]->data != ''){
+
+                $data = json_decode($result[0]->data, true);
+                $nombre = $result[0]->nombre;
+
+                $output = "
+                <div id='cp-users'>
+                    <div class='cp-container'>
+                        <h5>$nombre</h5>
+                        <table class='table'>
+                            <thead>
+                                <th></th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Email</th>
+                            </thead>
+                            <tbody>
+                                
+                ";
+
+                foreach($data['items'] as $v){
+                    $nombres = $v['nombres'];
+                    $apellidos = $v['apellidos'];
+                    $email = $v['email'];
+                    $media = $v['media'];
+
+                    $output .= "
+                                <tr>
+                                    <td>
+                                        <img class='cp-media' src='$media' alt=''>
+                                    </td>
+                                    <td>$nombres</td>
+                                    <td>$apellidos</td>
+                                    <td>$email</td>
+                                </tr>";
+                }
+
+                $output .= "
+                            </tbody>
+                        </table>
+                    </div>
+                </div>";
+
+            } else {
+                $output = "<h5> No hay inform,acion con el ID #$id";
+            }
+
+            return $output;
+        }
+
     }
     
 }

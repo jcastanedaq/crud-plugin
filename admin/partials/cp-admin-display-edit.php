@@ -13,8 +13,10 @@
   */
 /* Este archivo debe consistir principalmente en HTML con un poco de PHP. */
 $id = $_GET['id'];
-$sql = "SELECT id, nombre FROM ". CP_TABLE;
-$result = $this->db->get_results($sql);
+$sql = $this->db->prepare("SELECT data FROM ".CP_TABLE." WHERE id = %d", $id);
+$result = $this->db->get_var($sql);
+
+
 
 ?>
 <div id="addUpdate" class="modal">
@@ -62,6 +64,7 @@ $result = $this->db->get_results($sql);
                 </div>
             </div>
         </div>
+        <h4></h4>
         <form method="post" class="col s12 formuData">
         <div class="row">
             <input id="idTable" type="hidden" name="idTable" value="<?php echo $id; ?>">
@@ -98,6 +101,7 @@ $result = $this->db->get_results($sql);
         <div class="row">
         <div class="input-field col s6">
                 <button id="agregar" class="btn waves-effect waves-light" type="button" name="accion"> Agregar <i class="material-icons right">add</i></button>
+                <button data-id="" id="actualizar" class="btn waves-effect waves-light" type="button" name="accion"> Actualizar <i class="material-icons right">cached</i></button>
             </div>
         </div>
         </form>
@@ -126,34 +130,18 @@ $result = $this->db->get_results($sql);
     <table class="bordered responsive-table">
         <thead>
           <tr>
-              <th>Name</th>
-              <th>ShortCode</th>
+              <th></th>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Email</th>
               <th></th>
               <th></th>
           </tr>
         </thead>
         <tbody>
+            
             <?php
-                foreach($result as $k => $v){
-                    $id = $v->id;
-                    $nombre = $v->nombre;
-
-                    echo "
-                    <tr data-table='$id'>
-                    <td>$nombre</td>
-                    <td>[cpdatos id='$id']</td>
-                    <td>
-                        <span data-cp-id-edit='$id' class='btn btn-floating waves-effect waves-light'>    
-                            <i class='tiny material-icons'>mode_edit</i>
-                        </span>
-                    </td>
-                    <td>
-                        <span data-cp-id-remove='$id' class='btn btn-floating waves-effect waves-light red darken-1'>
-                            <i class='tiny material-icons'>close</i>
-                        </span>
-                    </td>
-                  </tr>";
-                }
+                echo $this->crud_json->read_items($result);
             ?>
           
         </tbody>

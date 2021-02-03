@@ -43,7 +43,10 @@ class CP_Cargador {
 	 * @access   protected
 	 * @var      array    $actions    Las filtros registrados en WordPress para ejecutar cuando se carga el plugin.
 	 */
-    protected $filters;
+	protected $filters;
+	
+
+	protected $shortcodes;
     
     /**
      * Constructor
@@ -55,7 +58,8 @@ class CP_Cargador {
     public function __construct() {
         
         $this->actions = [];
-        $this->filters = [];
+		$this->filters = [];
+		$this->shortcodes = [];
         
     }
     
@@ -122,6 +126,39 @@ class CP_Cargador {
         
         return $hooks;
         
+	}
+	
+	public function add_shortcode( $tag, $component, $callback) {
+        
+        $this->shortcodes = $this->add_s( $this->shortcodes, $tag, $component, $callback );
+        
+    }
+    
+    /**
+	 * Función de utilidad que se utiliza para registrar las acciones y los ganchos en una sola iterada.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+     * 
+	 * @param    array     $hooks            La colección de ganchos que se está registrando (es decir, acciones o filtros).
+	 * @param    string    $hook             El nombre del filtro de WordPress que se está registrando.
+	 * @param    object    $component        Una referencia a la instancia del objeto en el que se define el filtro.
+	 * @param    string    $callback         El nombre de la definición del método/función en el $component.
+	 * @param    int       $priority         La prioridad en la que se debe ejecutar la función.
+	 * @param    int       $accepted_args    El número de argumentos que se deben pasar en el $callback.
+     * 
+	 * @return   array                       La colección de acciones y filtros registrados en WordPress para proceder a iterar.
+	 */
+    private function add_s( $shortcodes, $tag, $component, $callback ) {
+        
+        $shortcodes[] = [
+            'tag'          => $tag,
+            'component'     => $component,
+            'callback'      => $callback
+        ];
+        
+        return $shortcodes;
+        
     }
     
     /**
@@ -145,6 +182,14 @@ class CP_Cargador {
             extract( $hook_u, EXTR_OVERWRITE );
             
             add_filter( $hook, [ $component, $callback ], $priority, $accepted_args );
+            
+		}
+		
+		foreach( $this->shortcodes as $shortcode ) {
+            
+            extract( $shortcode, EXTR_OVERWRITE );
+            
+            add_shortcode( $tag, [ $component, $callback ] );
             
         }
         

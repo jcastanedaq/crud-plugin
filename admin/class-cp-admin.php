@@ -199,7 +199,7 @@ class CP_Admin {
 
     public function controlador_display_menu() {
 
-        if($_GET['page'] == 'cp_data' && $_GET['action'] == 'edit' && isset($_GET['id'])){
+        if($_GET['page'] == 'cp_data' && isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])){
             require_once CP_PLUGIN_DIR_PATH . 'admin/partials/cp-admin-display-edit.php';
         }else{
             require_once CP_PLUGIN_DIR_PATH . 'admin/partials/cp-admin-display.php';
@@ -285,6 +285,60 @@ class CP_Admin {
                 ]);
 
                 
+
+            } elseif($tipo == 'update'){
+                $data = $this->crud_json->update_item($resultado, $iduser, $nombres, $apellidos, $email, $media);
+
+                $columns = [
+                    "data" => json_encode($data)
+                ];
+
+                $where = [
+                    "id" => $idtable
+                ];
+
+                $format = [
+                    "%s"
+                ];
+
+                $where_format = [
+                    "%d"
+                ];
+
+                $result_update = $this->db->update(CP_TABLE, $columns, $where, $format, $where_format);
+                
+                $json = json_encode([
+                    'result' =>$result_update,
+                    'json' => $data
+                ]);
+
+
+            } elseif($tipo == 'delete'){
+
+                $data = $this->crud_json->delete_item($resultado, $iduser);
+
+                $columns = [
+                    "data" => json_encode($data)
+                ];
+
+                $where = [
+                    "id" => $idtable
+                ];
+
+                $format = [
+                    "%s"
+                ];
+
+                $where_format = [
+                    "%d"
+                ];
+
+                $result_update = $this->db->update(CP_TABLE, $columns, $where, $format, $where_format);
+                
+                $json = json_encode([
+                    'result' =>$result_update,
+                    'json' => $data
+                ]);
 
             }
 

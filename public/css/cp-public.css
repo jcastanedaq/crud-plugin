@@ -24,6 +24,12 @@ input.clase_campo {
     color: black
 }
 
+.cp-media{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+}
+
 
 
 

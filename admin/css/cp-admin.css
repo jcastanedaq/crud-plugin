@@ -53,6 +53,27 @@ input.clase_campo {
 	transform: translate(-50%, -50%);
 }
 
+.cp-media {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+}
+
+.bg-animado {
+	animation: bganimado 1.4s;
+	-webkit-animation: bganimado 1.4s;
+}
+
+@keyframes bganimado {
+	0% { background: green; }
+	100% { background: transparent; }
+}
+
+@-webkit-keyframes bganimado {
+	0% { background: green; }
+	100% { background: transparent; }
+}
+
 
 
 
